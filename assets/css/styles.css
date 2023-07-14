@@ -1,0 +1,29 @@
+body {
+    background-color: #1F1F1F;
+}
+
+#password,
+#text,
+#decrypt,
+#decrypted,
+h2 {
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 10%;
+}
+
+#decrypted {
+    color: white;
+    text-align: center;
+}
+
+h2 {
+    color: white;
+    text-align: center;
+}
+
+input {
+    width: 27%;
+    text-align: center;
+}

@@ -4,26 +4,87 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Untitled</title>
+    <title>Welcome traveler</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
-</head>
-
-<body>
-    <nav class="navbar navbar-light navbar-expand-md">
-        <div class="container-fluid"><a class="navbar-brand" href="#">Tacokeet | Sander Ruchti</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse"
-                id="navcol-1">
-                <ul class="nav navbar-nav ml-auto">
-                    <li class="nav-item" role="presentation"><a class="nav-link active" href="#">First Link</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="#">Blabladie</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="#">Nananan</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"
+        integrity="sha256-/H4YS+7aYb9kJ5OKhFYPUjSJdrtV6AeyJOtTkw6X72o=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/hmac.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/sha1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/md5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/core.js"></script>
+
+</head>
+
+<!-- U2FsdGVkX18yH8TTVW3Yprx5AwiudmRSftQdrFkRcDI  cool --> 
+<!-- U2FsdGVkX19p3lbX6EhUXOgoNZXLsJcxtzy6CglN2xM 296847813682 -->
+
+<body>
+    <script>
+        function encrypt() {
+            var encrypted = CryptoJS.AES.encrypt(
+                $("#text").val(),
+                $("#password").val()
+            );
+            $("#EncryptedValue").text(encrypted);
+        }
+        function decrypt() {
+            var decrypted = CryptoJS.AES.decrypt(
+                $("#text").val(),
+                $("#password").val()
+            ).toString(CryptoJS.enc.Utf8);
+            $("#decrypted").text(decrypted);
+        }
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const user = urlParams.get('user')
+            history.replaceState({}, null, "/index.html");
+
+            var hash1 = CryptoJS.HmacMD5("Message", "Secret Passphrase");
+            var hash2 = CryptoJS.HmacSHA1("Message", "Secret Passphrase");
+            var hash3 = CryptoJS.HmacSHA256("Message", "Secret Passphrase");
+            var hash4 = CryptoJS.HmacSHA512("Message", "Secret Passphrase");
+
+            console.log(hash1);
+            console.log(hash2);
+            console.log(hash3);
+            console.log(hash4);
+
+
+            // CryptoJS.RC4.decrypt(lencrypted, "Secret Passphrase");
+
+    </script>
+
+    <h2 id="user"></h2>
+    <input id="text" type="text" placeholder="Message here" />
+    <input id="password" type="text" placeholder="Password here" />
+    <button onclick="encrypt()">encrypt</button>
+    <span id="EncryptedValue"></span>
+    <button id="decrypt" onclick="decrypt()">Solve</button>
+    <span id="decrypted"></span>
+
+
+
+    <script>
+        let totalName = '';
+        if (user) {
+            let name = user.split(" ");
+
+            for (let i = 0; i < name.length; i++) {
+                name[i] = name[i][0].toUpperCase() + name[i].substr(1);
+            }
+            totalName = name.join(' '); 
+            console.log(totalName);
+        }
+        $("#user").text('Welcome ' + totalName);
+
+
+     </script>
+
+
+
 </body>
 
 </html>
