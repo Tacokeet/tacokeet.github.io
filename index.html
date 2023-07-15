@@ -31,10 +31,15 @@
 
         function decrypt() {
             let html = $('#decrypt').html();
-            var decrypted = CryptoJS.Rabbit.decrypt(
+            try {
+                var decrypted = CryptoJS.Rabbit.decrypt(
                 'U2FsdGVkX1' + $("#text").val(),
                 $("#password").val()
-            ).toString(CryptoJS.enc.Utf8);
+                ).toString(CryptoJS.enc.Utf8);
+            } catch (error) {
+                decrypted = '';
+            }
+
             $('#decrypt').replaceWith('<div class="lds-facebook"><div></div><div></div><div></div></div>');
             
             setTimeout(function() {
@@ -49,7 +54,7 @@
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
             const user = urlParams.get('user')
-            history.replaceState({}, null, "/index.html");
+            history.replaceState({}, null, "/");
     </script>
 
 
