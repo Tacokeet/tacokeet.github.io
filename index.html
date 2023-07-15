@@ -9,64 +9,57 @@
     <link rel="stylesheet" href="assets/css/styles.css">
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"
-        integrity="sha256-/H4YS+7aYb9kJ5OKhFYPUjSJdrtV6AeyJOtTkw6X72o=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/hmac.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/sha1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/md5.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/core.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/rabbit.js" crossorigin="anonymous"></script>
 </head>
 
 <!-- U2FsdGVkX18yH8TTVW3Yprx5AwiudmRSftQdrFkRcDI  cool --> 
 <!-- U2FsdGVkX19p3lbX6EhUXOgoNZXLsJcxtzy6CglN2xM 296847813682 -->
+<!-- 8Di2xUeFQNpHiCuembZesDiMYBA409sq0 296847813682 -->
 
 <body>
     <script>
-        function encrypt() {
-            var encrypted = CryptoJS.AES.encrypt(
-                $("#text").val(),
-                $("#password").val()
-            );
-            $("#EncryptedValue").text(encrypted);
-        }
+        // var rc = CryptoJS.Rabbit.encrypt("0411202315000595", "296847813682");
+        // console.log(rc.toString());
+
+        // function encrypt() {
+        //     var encrypted = CryptoJS.Rabbit.encrypt(
+        //         $("#text").val(),
+        //         $("#password").val()
+        //     );
+        //     $("#EncryptedValue").text(encrypted);
+        // }
+
         function decrypt() {
-            var decrypted = CryptoJS.AES.decrypt(
-                $("#text").val(),
+            let html = $('#decrypt').html();
+            var decrypted = CryptoJS.Rabbit.decrypt(
+                'U2FsdGVkX1' + $("#text").val(),
                 $("#password").val()
             ).toString(CryptoJS.enc.Utf8);
-            $("#decrypted").text(decrypted);
+            $('#decrypt').replaceWith('<div class="lds-facebook"><div></div><div></div><div></div></div>');
+            
+            setTimeout(function() {
+                if (decrypted) {
+                    $(".lds-facebook").hide();
+                    $("#decrypted").text(decrypted);
+                } else {
+                    $('.lds-facebook').replaceWith('<button id="decrypt" onclick="decrypt()" style="opacity: 1;">Try again?</button>');
+                }
+            }, 3500);
         }
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
             const user = urlParams.get('user')
             history.replaceState({}, null, "/index.html");
-
-            var hash1 = CryptoJS.HmacMD5("Message", "Secret Passphrase");
-            var hash2 = CryptoJS.HmacSHA1("Message", "Secret Passphrase");
-            var hash3 = CryptoJS.HmacSHA256("Message", "Secret Passphrase");
-            var hash4 = CryptoJS.HmacSHA512("Message", "Secret Passphrase");
-
-            console.log(hash1);
-            console.log(hash2);
-            console.log(hash3);
-            console.log(hash4);
-
-
-            // CryptoJS.RC4.decrypt(lencrypted, "Secret Passphrase");
-
     </script>
+
 
     <h2 id="user"></h2>
     <input id="text" type="text" placeholder="Message here" />
     <input id="password" type="text" placeholder="Password here" />
-    <button onclick="encrypt()">encrypt</button>
     <span id="EncryptedValue"></span>
     <button id="decrypt" onclick="decrypt()">Solve</button>
-    <span id="decrypted"></span>
-
-
-
+    <h2 id="decrypted"></h2>
+    
     <script>
         let totalName = '';
         if (user) {
@@ -76,11 +69,24 @@
                 name[i] = name[i][0].toUpperCase() + name[i].substr(1);
             }
             totalName = name.join(' '); 
-            console.log(totalName);
         }
-        $("#user").text('Welcome ' + totalName);
 
+        var i = 0;
+        var txt = 'Welcome ' + totalName;
+        var speed = 450;
 
+        function typeWriter() {
+            if (i < txt.length) {
+                document.getElementById("user").innerHTML += txt.charAt(i);
+                i++;
+                setTimeout(typeWriter, speed);
+            } else {
+                $("#text").animate({"opacity": "1"}, 1500);
+                $("#password").delay(500).animate({"opacity": "1"}, 1500);
+                $("#decrypt").delay(1000).animate({"opacity": "1"}, 1500);
+            }
+        }
+        setTimeout(typeWriter, 800);
      </script>
 
 
