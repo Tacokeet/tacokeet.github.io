@@ -55,9 +55,9 @@
             const urlParams = new URLSearchParams(queryString);
             const user = urlParams.get('user');
             if (user) {
-                localStorage.user = user;
+                localStorage.setItem("user", user);
             } else {
-                user = localStorage.user;
+                user = localStorage.getItem("user");
             }
             history.replaceState({}, null, "/");
     </script>
