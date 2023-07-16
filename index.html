@@ -53,11 +53,13 @@
         }
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
-            const user = urlParams.get('user');
+            var user = '';
+            user = urlParams.get('user');
             if (user) {
                 localStorage.setItem("user", user);
+                localStorage.user = user;
             } else {
-                user = localStorage.getItem("user");
+                user = localStorage.user;
             }
             history.replaceState({}, null, "/");
     </script>
