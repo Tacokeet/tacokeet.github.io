@@ -15,6 +15,17 @@ h2,
     margin-top: 10%;
 }
 
+h5 {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 2%;
+  margin-bottom: -7%;
+  color: rgba(255, 255, 255, 0.151);
+  text-align: center;
+  opacity: 0;
+}
+
 #password,
 #text,
 #decrypt {
